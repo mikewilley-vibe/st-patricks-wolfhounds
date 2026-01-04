@@ -51,7 +51,20 @@ export default function Page() {
       <header className="relative isolate overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-purple-900 to-indigo-950 opacity-95" />
+          {/* Hero image */}
+          <Image
+            src="/images/ohbball.png"
+            alt="OHMS Girls Basketball"
+            fill
+            priority
+            className="object-cover object-center"
+          />
+
+          {/* Darken + purple brand overlay so white text stays readable */}
+          <div className="absolute inset-0 bg-black/45" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-950/80 via-purple-900/55 to-indigo-950/75" />
+
+          {/* Glow accents (keep your polish) */}
           <div className="absolute -top-24 left-1/2 h-72 w-[60rem] -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
           <div className="absolute -bottom-32 right-[-10rem] h-80 w-80 rounded-full bg-purple-500/10 blur-3xl" />
         </div>
@@ -70,7 +83,7 @@ export default function Page() {
               </h1>
 
               <p className="mt-4 max-w-xl text-pretty text-sm leading-relaxed text-white/80 md:text-base">
-             
+                {/* (optional) add a line here if you want */}
               </p>
 
               <div className="mt-5 flex flex-wrap gap-2">
@@ -144,9 +157,21 @@ export default function Page() {
       {/* CONTENT */}
       <main id="content" className="mx-auto max-w-6xl px-4 py-10">
         <div className="grid gap-6 md:grid-cols-[1fr_18rem]">
-          <section className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70">
-            {content}
-          </section>
+         <section
+  className="
+    relative overflow-hidden rounded-2xl
+    bg-white p-6 shadow-sm ring-1 ring-slate-200/70
+  "
+>
+  {/* subtle purple wash like the hero */}
+  <div className="pointer-events-none absolute inset-0 -z-10">
+    <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-indigo-50" />
+    <div className="absolute -top-24 left-1/2 h-72 w-[60rem] -translate-x-1/2 rounded-full bg-purple-200/30 blur-3xl" />
+    <div className="absolute -bottom-24 right-[-8rem] h-72 w-72 rounded-full bg-indigo-200/25 blur-3xl" />
+  </div>
+
+  {content}
+</section>
 
           {/* Side rail */}
           <aside className="space-y-4">

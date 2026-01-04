@@ -13,12 +13,10 @@ const COACHES = {
 };
 
 const PLAYERS: Player[] = [
-  // 8th Graders
   { id: 1, number: 23, name: "Adelaide Kandl", grade: 8 },
   { id: 2, number: 15, name: "Aria McLaurin", grade: 8 },
   { id: 3, number: 32, name: "Vienna Thomson", grade: 8 },
 
-  // 7th Graders
   { id: 4, number: 4, name: "Evie Bagnell", grade: 7 },
   { id: 5, number: 12, name: "Charlotte Hogge", grade: 7 },
   { id: 6, number: 7, name: "Pearl Barry", grade: 7 },
@@ -39,16 +37,24 @@ function PlayerCard({ player }: { player: Player }) {
         rounded-2xl bg-white p-4
         shadow-sm ring-1 ring-slate-200/70
         transition-all duration-200
-        hover:-translate-y-1 hover:shadow-lg hover:ring-purple-300
+        hover:-translate-y-1 hover:shadow-lg
+        hover:ring-purple-400/70
       "
     >
       <div className="flex items-center gap-4">
-        <div className="flex size-14 items-center justify-center rounded-full bg-purple-600 text-white font-semibold shrink-0">
+        <div
+          className="
+            flex size-14 items-center justify-center
+            rounded-full bg-gradient-to-br from-purple-300 to-indigo-700
+            text-white font-semibold shrink-0
+            shadow-sm
+          "
+        >
           #{player.number}
         </div>
 
         <div className="min-w-0 flex-1">
-          <h4 className="truncate text-base font-semibold text-slate-900 transition-colors group-hover:text-purple-700">
+          <h4 className="truncate text-base font-semibold text-slate-900 transition-colors group-hover:text-purple-800">
             {player.name}
           </h4>
           <p className="mt-1 text-sm text-slate-500">Grade {player.grade}</p>
@@ -63,16 +69,18 @@ export default function TeamRoster() {
   const grade7 = PLAYERS.filter((p) => p.grade === 7);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <Users className="size-8 text-purple-600" />
+        <Users className="size-8 text-purple-700" />
         <h2 className="text-2xl font-semibold">Team Roster</h2>
       </div>
 
       {/* Coaching Staff */}
-      <div className="rounded-2xl bg-gradient-to-r from-purple-600 to-purple-700 p-5 text-white shadow-sm">
-        <h3 className="text-white/95 text-sm font-semibold tracking-wide">COACHING STAFF</h3>
+      <div className="rounded-2xl bg-gradient-to-br from-purple-400 via-purple-900 to-indigo-800 p-5 text-white shadow-sm">
+        <h3 className="text-white/90 text-xs font-semibold tracking-wide">
+          COACHING STAFF
+        </h3>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <div className="rounded-xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur">
@@ -90,11 +98,13 @@ export default function TeamRoster() {
       {/* Grade 8 */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold tracking-wide text-slate-500">8TH GRADE</h3>
+          <h3 className="text-sm font-semibold tracking-wide text-purple-800">
+            8TH GRADE
+          </h3>
           <span className="text-xs text-slate-500">{grade8.length} players</span>
         </div>
 
-        <div className="grid gap-3">
+        <div className="grid gap-3 md:grid-cols-2">
           {grade8.map((p) => (
             <PlayerCard key={p.id} player={p} />
           ))}
@@ -102,13 +112,15 @@ export default function TeamRoster() {
       </div>
 
       {/* Grade 7 */}
-      <div className="space-y-3 pt-2">
+      <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold tracking-wide text-slate-500">7TH GRADE</h3>
+          <h3 className="text-sm font-semibold tracking-wide text-purple-800">
+            7TH GRADE
+          </h3>
           <span className="text-xs text-slate-500">{grade7.length} players</span>
         </div>
 
-        <div className="grid gap-3">
+        <div className="grid gap-3 md:grid-cols-2">
           {grade7.map((p) => (
             <PlayerCard key={p.id} player={p} />
           ))}

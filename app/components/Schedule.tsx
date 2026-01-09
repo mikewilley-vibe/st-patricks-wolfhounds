@@ -1,4 +1,5 @@
-import { Calendar, MapPin, Trophy } from "lucide-react";
+// app/components/Schedule.tsx
+import { Calendar, MapPin, Trophy, Shirt, ChevronRight } from "lucide-react";
 
 interface Game {
   id: number;
@@ -8,6 +9,11 @@ interface Game {
   location: string; // "Home" | "Away" (keep if you want)
   venue: string;
   isHome: boolean;
+
+  // ✅ new
+  jersey?: "Purple" | "White" | "Black" | "Gold" | "Navy" | "Gray";
+  directionsUrl?: string;
+
   result?: { score: string; won: boolean };
 }
 
@@ -20,6 +26,8 @@ const games: Game[] = [
     location: "Home",
     venue: "Benedictine",
     isHome: true,
+    jersey: "Purple",
+    directionsUrl: "https://maps.google.com/?q=Benedictine+College+Prep+Richmond+VA",
     result: { score: "22-15", won: true },
   },
   {
@@ -30,6 +38,8 @@ const games: Game[] = [
     location: "Away",
     venue: "Our Lady of Lourdes",
     isHome: false,
+    jersey: "White",
+    directionsUrl: "https://maps.google.com/?q=Our+Lady+of+Lourdes+Catholic+School+Richmond+VA",
     result: { score: "12-11", won: false },
   },
   {
@@ -40,6 +50,8 @@ const games: Game[] = [
     location: "Away",
     venue: "Our Lady of Lourdes",
     isHome: false,
+    jersey: "Purple",
+    directionsUrl: "https://maps.google.com/?q=Our+Lady+of+Lourdes+Catholic+School+Richmond+VA",
   },
   {
     id: 4,
@@ -49,6 +61,8 @@ const games: Game[] = [
     location: "Away",
     venue: "Veritas",
     isHome: false,
+    jersey: "Purple",
+    directionsUrl: "https://maps.google.com/?q=Veritas+School+Richmond+VA",
   },
   {
     id: 5,
@@ -58,6 +72,8 @@ const games: Game[] = [
     location: "Away",
     venue: "St Benedictine Main Floor",
     isHome: false,
+    jersey: "Purple",
+    directionsUrl: "https://maps.google.com/?q=St+Benedictine+College+Prep+Richmond+VA",
   },
   {
     id: 6,
@@ -67,8 +83,37 @@ const games: Game[] = [
     location: "Away",
     venue: "Veritas",
     isHome: false,
+    jersey: "Purple",
+    directionsUrl: "https://maps.google.com/?q=Veritas+School+Richmond+VA",
   },
 ];
+
+function jerseyDotClass(jersey?: Game["jersey"]) {
+  switch (jersey) {
+    case "Purple":
+      return "bg-purple-600";
+    case "White":
+      return "bg-slate-100 ring-1 ring-slate-300";
+    case "Black":
+      return "bg-slate-900";
+    case "Gold":
+      return "bg-amber-400";
+    case "Navy":
+      return "bg-indigo-900";
+    case "Gray":
+      return "bg-slate-400";
+    default:
+      return "bg-slate-300";
+  }
+}
+
+function directionsHref(game: Game) {
+  if (game.directionsUrl) return game.directionsUrl;
+  // fallback: maps query based on venue name
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    game.venue
+  )}`;
+}
 
 function DateBadge({
   date,
@@ -100,6 +145,55 @@ function DateBadge({
       <div className="mt-0.5 text-sm font-semibold leading-none">
         {m}/{d}
       </div>
+    </div>
+  );
+}
+
+function GameMetaRow({
+  game,
+  showResult,
+}: {
+  game: Game;
+  showResult: boolean;
+}) {
+  return (
+    <div className="mt-3 flex flex-wrap items-center gap-2">
+      {/* Home/Away pill */}
+      <span
+        className={[
+          "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1",
+          game.isHome
+            ? "bg-purple-50 text-purple-700 ring-purple-200"
+            : "bg-slate-50 text-slate-700 ring-slate-200",
+        ].join(" ")}
+      >
+        {game.isHome ? "Home" : "Away"}
+      </span>
+
+      <span className="text-xs text-slate-500">{game.time}</span>
+
+      {/* ✅ Jersey - now visible on mobile */}
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
+        <span className={["h-2.5 w-2.5 rounded-full", jerseyDotClass(game.jersey)].join(" ")} />
+        <span className="inline-flex items-center gap-1">
+          <Shirt className="size-3.5 text-slate-500" />
+          {game.jersey ?? "TBD"}
+        </span>
+      </span>
+
+      {/* ✅ Result - now visible on mobile */}
+      {showResult && game.result ? (
+        <span
+          className={[
+            "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1",
+            game.result.won
+              ? "bg-green-50 text-green-700 ring-green-200"
+              : "bg-red-50 text-red-700 ring-red-200",
+          ].join(" ")}
+        >
+          {game.result.won ? "W" : "L"} • {game.result.score}
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -158,73 +252,53 @@ export default function Schedule() {
         ) : (
           <div className="grid gap-3">
             {completed.map((game) => (
-              <div
+              <a
                 key={game.id}
+                href={directionsHref(game)}
+                target="_blank"
+                rel="noreferrer"
                 className="
-                  group
-                  rounded-2xl
-                  bg-white
-                  p-4
-                  shadow-sm
-                  ring-1 ring-slate-200/70
+                  group block
+                  rounded-2xl bg-white p-4
+                  shadow-sm ring-1 ring-slate-200/70
                   transition-all duration-200
-                  hover:-translate-y-1
-                  hover:shadow-lg
-                  hover:ring-purple-300
+                  hover:-translate-y-1 hover:shadow-lg hover:ring-purple-300
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500
                 "
               >
-                <div className="flex items-center gap-4">
-                  {/* Badge */}
+                <div className="flex items-start gap-4">
                   <DateBadge
                     date={game.date}
                     variant={game.result?.won ? "win" : "loss"}
                   />
 
-                  {/* Main */}
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      {/* Home/Away pill (kept for completed games) */}
-                      <span
-                        className={[
-                          "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1",
-                          game.isHome
-                            ? "bg-purple-50 text-purple-700 ring-purple-200"
-                            : "bg-slate-50 text-slate-700 ring-slate-200",
-                        ].join(" ")}
-                      >
-                        {game.isHome ? "Home" : "Away"}
-                      </span>
-
-                      <span className="text-xs text-slate-500">{game.time}</span>
-                    </div>
-
-                    <h4 className="mt-2 text-lg font-semibold text-slate-900 transition-colors group-hover:text-purple-700">
-                      vs {game.opponent}
-                    </h4>
+                  <div className="min-w-0 flex-1">
+                  <div className="mt-2 flex flex-wrap items-baseline gap-2">
+  <h4 className="text-lg font-semibold text-slate-900 transition-colors group-hover:text-purple-700">
+    vs {game.opponent}
+  </h4>
+  <span className="text-lg font-semibold text-slate-500">
+    {game.time}
+  </span>
+</div>
 
                     <div className="mt-1 flex items-center gap-2 text-sm text-slate-600">
                       <MapPin className="size-4 text-slate-400" />
-                      <span>{game.venue}</span>
+                      <span className="truncate">{game.venue}</span>
                     </div>
+
+                    {/* ✅ mobile-friendly row w/ jersey + result */}
+                    <GameMetaRow game={game} showResult />
                   </div>
 
-                  {/* Right-side: Result (moved here like Jersey column) */}
-                  <div className="hidden sm:block text-right">
-                    <div className="text-xs text-slate-500">Result</div>
-
-                    <div
-                      className={[
-                        "mt-1 inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold ring-1",
-                        game.result?.won
-                          ? "bg-green-50 text-green-700 ring-green-200"
-                          : "bg-red-50 text-red-700 ring-red-200",
-                      ].join(" ")}
-                    >
-                      {game.result?.won ? "W" : "L"} • {game.result?.score}
-                    </div>
-                  </div>
+                  {/* subtle affordance */}
+                  <ChevronRight className="mt-1 size-5 text-slate-300 transition group-hover:text-purple-400" />
                 </div>
-              </div>
+
+                <p className="mt-3 text-xs text-slate-400">
+                  Tap for directions
+                </p>
+              </a>
             ))}
           </div>
         )}
@@ -243,61 +317,49 @@ export default function Schedule() {
         ) : (
           <div className="grid gap-3">
             {upcoming.map((game) => (
-              <div
+              <a
                 key={game.id}
+                href={directionsHref(game)}
+                target="_blank"
+                rel="noreferrer"
                 className="
-                  group
-                  rounded-2xl
-                  bg-white
-                  p-4
-                  shadow-sm
-                  ring-1 ring-slate-200/70
+                  group block
+                  rounded-2xl bg-white p-4
+                  shadow-sm ring-1 ring-slate-200/70
                   transition-all duration-200
-                  hover:-translate-y-1
-                  hover:shadow-lg
-                  hover:ring-purple-300
+                  hover:-translate-y-1 hover:shadow-lg hover:ring-purple-300
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500
                 "
               >
-                <div className="flex items-center gap-4">
-                  {/* Left badge */}
+                <div className="flex items-start gap-4">
                   <DateBadge date={game.date} variant="upcoming" />
 
-                  {/* Main */}
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span
-                        className={[
-                          "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1",
-                          game.isHome
-                            ? "bg-purple-50 text-purple-700 ring-purple-200"
-                            : "bg-slate-50 text-slate-700 ring-slate-200",
-                        ].join(" ")}
-                      >
-                        {game.isHome ? "Home" : "Away"}
-                      </span>
-
-                      <span className="text-xs text-slate-500">{game.time}</span>
-                    </div>
-
-                    <h4 className="mt-2 text-lg font-semibold text-slate-900 transition-colors group-hover:text-purple-700">
-                      vs {game.opponent}
-                    </h4>
+                  <div className="min-w-0 flex-1">
+                  <div className="mt-2 flex flex-wrap items-baseline gap-2">
+  <h4 className="text-lg font-semibold text-slate-900 transition-colors group-hover:text-purple-700">
+    vs {game.opponent}
+  </h4>
+  <span className="text-lg font-semibold text-black-500">
+    {game.time}
+  </span>
+</div>
 
                     <div className="mt-1 flex items-center gap-2 text-sm text-slate-600">
                       <MapPin className="size-4 text-slate-400" />
-                      <span>{game.venue}</span>
+                      <span className="truncate">{game.venue}</span>
                     </div>
+
+                    {/* ✅ mobile-friendly row w/ jersey (and no result) */}
+                    <GameMetaRow game={game} showResult={false} />
                   </div>
 
-                  {/* Right side: Jersey Color */}
-                  <div className="hidden sm:block text-right">
-                    <div className="text-xs text-slate-500">Jersey</div>
-                    <div className="text-sm font-semibold text-slate-900">
-                      Purple
-                    </div>
-                  </div>
+                  <ChevronRight className="mt-1 size-5 text-slate-300 transition group-hover:text-purple-400" />
                 </div>
-              </div>
+
+                <p className="mt-3 text-xs text-slate-400">
+                  Tap for directions
+                </p>
+              </a>
             ))}
           </div>
         )}

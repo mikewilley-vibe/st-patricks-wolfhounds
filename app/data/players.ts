@@ -28,16 +28,29 @@ export const PLAYERS: Player[] = [
   { id: 8, number: 24, name: "Ellie Montgomery", grade: 7 },
   { id: 9, number: 43, name: "Harper Roberts", grade: 7 },
   { id: 10, number: 0, name: "Zinn Scalin", grade: 7 },
-  { id: 11, number: 17, name: "Louise Totton", grade: 7 },
+  { id: 11, number: 17, name: "Louise Totton", grade: 7, position: "PG",
+    stats: {
+      points: 0,
+      rebounds: 7,
+      assists: 1,
+      steals: 22,
+      fouls: 7, }, },
   { id: 12, number: 23, name: "Mary Willey", grade: 7, position: "F",
     stats: {
       points: 8,
+      rebounds: 17,
+      assists: 1,
+      steals: 12,
+      fouls: 7, },
+    },
+  { id: 13, number: 34, name: "Jaidah Williams", grade: 7, position: "PG",
+    stats: {
+      points: 0,
       rebounds: 7,
       assists: 1,
-      steals: 2,
-      fouls: 3, },
-    },
-  { id: 13, number: 34, name: "Jaidah Williams", grade: 7 },
+      steals: 22,
+      fouls: 7, },
+     },
 ];
 
 export function getPlayerById(id: number) {

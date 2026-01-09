@@ -293,7 +293,7 @@ export default function Schedule() {
                   <div className="hidden sm:block text-right">
                     <div className="text-xs text-slate-500">Jersey</div>
                     <div className="text-sm font-semibold text-slate-900">
-                      TBD
+                      Purple
                     </div>
                   </div>
                 </div>

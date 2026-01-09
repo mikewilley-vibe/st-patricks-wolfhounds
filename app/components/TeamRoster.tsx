@@ -8,11 +8,8 @@ const COACHES = {
   assistant: "Eddie Bagnell",
 };
 
-// ✅ set this false if you do NOT want player pages / clickable cards yet
-const ENABLE_PLAYER_LINKS = true;
-
 function PlayerCard({ player }: { player: Player }) {
-  const CardInner = (
+  return (
     <div
       className="
         group
@@ -36,24 +33,15 @@ function PlayerCard({ player }: { player: Player }) {
         </div>
 
         <div className="min-w-0 flex-1">
-          <h4 className="truncate text-base font-semibold text-slate-900 transition-colors group-hover:text-purple-800">
+          <h4 className="truncate text-base font-semibold text-slate-900">
             {player.name}
           </h4>
-          <p className="mt-1 text-sm text-slate-500">Grade {player.grade}</p>
+          <p className="mt-1 text-sm text-slate-500">
+            Grade {player.grade}
+          </p>
         </div>
       </div>
     </div>
-  );
-
-  if (!ENABLE_PLAYER_LINKS) return CardInner;
-
-  return (
-    <Link
-      href={`/players/${player.id}`}
-      className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-2xl"
-    >
-      {CardInner}
-    </Link>
   );
 }
 

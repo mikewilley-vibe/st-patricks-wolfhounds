@@ -20,7 +20,7 @@ const games: Game[] = [
     location: "Home",
     venue: "Benedictine",
     isHome: true,
-    result: { score: "23-19", won: true },
+    result: { score: "22-15", won: true },
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const games: Game[] = [
     location: "Away",
     venue: "Our Lady of Lourdes",
     isHome: false,
-    result: { score: "14-13", won: false },
+    result: { score: "12-11", won: false },
   },
   {
     id: 3,

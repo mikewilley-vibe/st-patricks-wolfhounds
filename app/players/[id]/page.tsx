@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PLAYERS, getPlayerById } from "../../data/players";
+import { PLAYERS, getPlayerById } from "@/app/data/players";
 
 export const dynamic = "force-static";
 
@@ -8,9 +8,15 @@ export function generateStaticParams() {
   return PLAYERS.map((p) => ({ id: String(p.id) }));
 }
 
-export default function PlayerPage({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
-  const player = Number.isFinite(id) ? getPlayerById(id) : undefined;
+export default async function PlayerPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  const playerId = Number(id);
+  const player = Number.isFinite(playerId) ? getPlayerById(playerId) : undefined;
 
   if (!player) return notFound();
 
@@ -45,6 +51,41 @@ export default function PlayerPage({ params }: { params: { id: string } }) {
             </p>
           ) : null}
         </div>
+        {player.stats ? (
+  <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70">
+    <h2 className="mb-4 text-lg font-semibold text-slate-900">
+      Season Stats
+    </h2>
+
+    <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+      {[
+        { label: "PTS", value: player.stats.points },
+        { label: "REB", value: player.stats.rebounds },
+        { label: "AST", value: player.stats.assists },
+        { label: "STL", value: player.stats.steals },
+        { label: "FLS", value: player.stats.fouls },
+      ].map((stat) => (
+        <div
+          key={stat.label}
+          className="rounded-xl bg-slate-50 p-3 text-center ring-1 ring-slate-200/70"
+        >
+          <p className="text-xs font-semibold text-slate-500">
+            {stat.label}
+          </p>
+          <p className="mt-1 text-xl font-semibold text-slate-900">
+            {stat.value}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+) : (
+  <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70">
+    <p className="text-sm text-slate-500">
+      Stats will appear as games are played.
+    </p>
+  </div>
+)}
       </section>
     </main>
   );

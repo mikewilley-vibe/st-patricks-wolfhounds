@@ -1,5 +1,11 @@
 // app/data/players.ts
-
+export type PlayerStats = {
+  points: number;
+  rebounds: number;
+  assists: number;
+  steals: number;
+  fouls: number;
+};
 export type Player = {
   id: number;
   number: number;
@@ -7,6 +13,7 @@ export type Player = {
   grade: 7 | 8;
   position?: string;
   bio?: string;
+  stats?: PlayerStats; // 👈 new
 };
 
 export const PLAYERS: Player[] = [
@@ -22,7 +29,14 @@ export const PLAYERS: Player[] = [
   { id: 9, number: 43, name: "Harper Roberts", grade: 7 },
   { id: 10, number: 0, name: "Zinn Scalin", grade: 7 },
   { id: 11, number: 17, name: "Louise Totton", grade: 7 },
-  { id: 12, number: 23, name: "Mary Willey", grade: 7 },
+  { id: 12, number: 23, name: "Mary Willey", grade: 7, position: "F",
+    stats: {
+      points: 8,
+      rebounds: 7,
+      assists: 1,
+      steals: 2,
+      fouls: 3, },
+    },
   { id: 13, number: 34, name: "Jaidah Williams", grade: 7 },
 ];
 

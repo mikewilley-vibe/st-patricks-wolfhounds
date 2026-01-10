@@ -170,8 +170,6 @@ function GameMetaRow({
         {game.isHome ? "Home" : "Away"}
       </span>
 
-      <span className="text-xs text-slate-500">{game.time}</span>
-
       {/* ✅ Jersey - now visible on mobile */}
       <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
         <span className={["h-2.5 w-2.5 rounded-full", jerseyDotClass(game.jersey)].join(" ")} />
@@ -324,11 +322,12 @@ export default function Schedule() {
                 rel="noreferrer"
                 className="
                   group block
-                  rounded-2xl bg-white p-4
-                  shadow-sm ring-1 ring-slate-200/70
+                  rounded-2xl bg-gradient-to-br from-purple-400 via-purple-900 to-indigo-800 p-4
+                  shadow-sm ring-1 ring-purple-300/50
                   transition-all duration-200
-                  hover:-translate-y-1 hover:shadow-lg hover:ring-purple-300
+                  hover:-translate-y-1 hover:shadow-lg hover:ring-purple-400
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500
+                  text-white
                 "
               >
                 <div className="flex items-start gap-4">
@@ -336,16 +335,16 @@ export default function Schedule() {
 
                   <div className="min-w-0 flex-1">
                   <div className="mt-2 flex flex-wrap items-baseline gap-2">
-  <h4 className="text-lg font-semibold text-slate-900 transition-colors group-hover:text-purple-700">
+  <h4 className="text-lg font-semibold text-white transition-colors group-hover:text-purple-100">
     vs {game.opponent}
   </h4>
-  <span className="text-lg font-semibold text-black-500">
+  <span className="text-lg font-semibold text-white/80">
     {game.time}
   </span>
 </div>
 
-                    <div className="mt-1 flex items-center gap-2 text-sm text-slate-600">
-                      <MapPin className="size-4 text-slate-400" />
+                    <div className="mt-1 flex items-center gap-2 text-sm text-white/70">
+                      <MapPin className="size-4 text-white/50" />
                       <span className="truncate">{game.venue}</span>
                     </div>
 
@@ -353,10 +352,10 @@ export default function Schedule() {
                     <GameMetaRow game={game} showResult={false} />
                   </div>
 
-                  <ChevronRight className="mt-1 size-5 text-slate-300 transition group-hover:text-purple-400" />
+                  <ChevronRight className="mt-1 size-5 text-white/50 transition group-hover:text-white/70" />
                 </div>
 
-                <p className="mt-3 text-xs text-slate-400">
+                <p className="mt-3 text-xs text-white/60">
                   Tap for directions
                 </p>
               </a>

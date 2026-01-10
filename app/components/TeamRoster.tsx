@@ -10,38 +10,41 @@ const COACHES = {
 
 function PlayerCard({ player }: { player: Player }) {
   return (
-    <div
-      className="
-        group
-        rounded-2xl bg-white p-4
-        shadow-sm ring-1 ring-slate-200/70
-        transition-all duration-200
-        hover:-translate-y-1 hover:shadow-lg
-        hover:ring-purple-400/70
-      "
-    >
-      <div className="flex items-center gap-4">
-        <div
-          className="
-            flex size-14 items-center justify-center
-            rounded-full bg-gradient-to-br from-purple-300 to-indigo-700
-            text-white font-semibold shrink-0
-            shadow-sm
-          "
-        >
-          #{player.number}
-        </div>
+    <Link href={`/players/${player.id}`}>
+      <div
+        className="
+          group
+          rounded-2xl bg-white p-4
+          shadow-sm ring-1 ring-slate-200/70
+          transition-all duration-200
+          hover:-translate-y-1 hover:shadow-lg
+          hover:ring-purple-400/70
+          cursor-pointer
+        "
+      >
+        <div className="flex items-center gap-4">
+          <div
+            className="
+              flex size-14 items-center justify-center
+              rounded-full bg-gradient-to-br from-purple-300 to-indigo-700
+              text-white font-semibold shrink-0
+              shadow-sm
+            "
+          >
+            #{player.number}
+          </div>
 
-        <div className="min-w-0 flex-1">
-          <h4 className="truncate text-base font-semibold text-slate-900">
-            {player.name}
-          </h4>
-          <p className="mt-1 text-sm text-slate-500">
-            Grade {player.grade}
-          </p>
+          <div className="min-w-0 flex-1">
+            <h4 className="truncate text-base font-semibold text-slate-900">
+              {player.name}
+            </h4>
+            <p className="mt-1 text-sm text-slate-500">
+              Grade {player.grade}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

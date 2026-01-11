@@ -27,7 +27,6 @@ const games: Game[] = [
     venue: "Benedictine",
     isHome: true,
     jersey: "Purple",
-    directionsUrl: "https://maps.google.com/?q=Benedictine+College+Prep+Richmond+VA",
     result: { score: "22-15", won: true },
   },
   {
@@ -39,7 +38,6 @@ const games: Game[] = [
     venue: "Our Lady of Lourdes",
     isHome: false,
     jersey: "White",
-    directionsUrl: "https://maps.google.com/?q=Our+Lady+of+Lourdes+Catholic+School+Richmond+VA",
     result: { score: "12-11", won: false },
   },
   {
@@ -51,7 +49,7 @@ const games: Game[] = [
     venue: "Our Lady of Lourdes",
     isHome: false,
     jersey: "Purple",
-    directionsUrl: "https://maps.google.com/?q=Our+Lady+of+Lourdes+Catholic+School+Richmond+VA",
+    result: { score: "13-11", won: true },
   },
   {
     id: 4,

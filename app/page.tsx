@@ -22,12 +22,12 @@ function Chip({ children }: { children: React.ReactNode }) {
     <div
       className="
         inline-flex items-center
-        rounded-full border border-white/25 bg-white/10
-        px-3 py-1 text-xs text-white/90 backdrop-blur
-        transition-all duration-200
-        hover:-translate-y-0.5 hover:bg-white/20 hover:shadow-md
-        hover:ring-1 hover:ring-white/40
-        cursor-default
+        rounded-full border border-white/30 bg-white/15
+        px-4 py-2 text-xs text-white/95 backdrop-blur
+        transition-all duration-300
+        hover:-translate-y-1 hover:bg-white/25 hover:shadow-lg
+        hover:ring-1 hover:ring-white/50 hover:border-white/50
+        cursor-default font-medium tracking-wide
       "
     >
       {children}
@@ -72,7 +72,7 @@ export default function Page() {
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             {/* Left */}
-            <div className="max-w-2xl">
+            <div className="max-w-2xl" style={{ animation: "fade-in-down 0.7s ease-out" }}>
               <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/85 ring-1 ring-white/15">
                 Orchard House Middle School • Girls Basketball • Grades 5–8
               </p>
@@ -86,7 +86,7 @@ export default function Page() {
                 {/* (optional) add a line here if you want */}
               </p>
 
-              <div className="mt-5 flex flex-wrap gap-2">
+              <div className="mt-5 flex flex-wrap gap-2" style={{ animation: "fade-in-up 0.8s ease-out 0.2s both" }}>
                 <Chip>Head Coach: Marti Kandl</Chip>
                 <Chip>Assistant: Eddie Bagnell</Chip>
                 <Chip>Athletics Director: Rebecca Reyes</Chip>
@@ -94,8 +94,8 @@ export default function Page() {
             </div>
 
             {/* Right logo card */}
-            <div className="w-full md:w-[22rem]">
-              <div className="rounded-2xl bg-white/10 p-5 ring-1 ring-white/15 backdrop-blur">
+            <div className="w-full md:w-[22rem]" style={{ animation: "fade-in-up 0.7s ease-out 0.3s both" }}>
+              <div className="rounded-2xl bg-white/10 p-5 ring-1 ring-white/15 backdrop-blur transition-all duration-300 hover:bg-white/15 hover:shadow-lg">
                 <div className="flex items-center gap-4">
                   <div className="rounded-xl bg-white p-2">
                     <Image
@@ -114,14 +114,14 @@ export default function Page() {
                 </div>
 
                 {/* quick link that switches tab */}
-                <div className="mt-4 rounded-xl bg-black/10 p-3 text-white/85">
+                <div className="mt-4 rounded-xl bg-black/10 p-3 text-white/85 transition-all duration-200 hover:bg-black/20">
                   <div className="mt-2 flex gap-2">
                     <button
                       onClick={() => {
                         setActiveTab("schedule");
                         document.getElementById("content")?.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="rounded-lg bg-white/10 px-3 py-2 text-xs hover:bg-white/15"
+                      className="rounded-lg bg-white/10 px-3 py-2 text-xs transition-all duration-200 hover:bg-white/20 hover:shadow-md"
                     >
                       Schedule
                     </button>
@@ -132,18 +132,21 @@ export default function Page() {
           </div>
 
           {/* Tabs bar */}
-          <div className="mt-8 rounded-2xl bg-white/10 p-2 ring-1 ring-white/15 backdrop-blur">
+          <div className="mt-8 rounded-2xl bg-white/10 p-2 ring-1 ring-white/15 backdrop-blur transition-all duration-300 hover:bg-white/15" style={{ animation: "fade-in-up 0.8s ease-out 0.4s both" }}>
             <div className="flex flex-wrap gap-2">
-              {TABS.map((t) => {
+              {TABS.map((t, idx) => {
                 const on = activeTab === t.key;
                 return (
                   <button
                     key={t.key}
                     onClick={() => setActiveTab(t.key)}
                     className={[
-                      "rounded-xl px-4 py-2 text-sm font-medium transition",
-                      on ? "bg-white text-slate-900 shadow-sm" : "text-white/85 hover:bg-white/10",
+                      "rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200",
+                      on 
+                        ? "bg-white text-slate-900 shadow-lg scale-105" 
+                        : "text-white/85 hover:bg-white/10 hover:shadow-md",
                     ].join(" ")}
+                    style={{ animation: `fade-in 0.5s ease-out ${0.1 * idx}s both` }}
                   >
                     {t.label}
                   </button>
@@ -161,7 +164,9 @@ export default function Page() {
   className="
     relative overflow-hidden rounded-2xl
     bg-white p-6 shadow-sm ring-1 ring-slate-200/70
+    transition-all duration-500
   "
+  style={{ animation: "fade-in-up 0.8s ease-out 0.5s both" }}
 >
   {/* subtle purple wash like the hero */}
   <div className="pointer-events-none absolute inset-0 -z-10">
@@ -175,7 +180,7 @@ export default function Page() {
 
           {/* Side rail */}
           <aside className="space-y-4">
-            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70">
+            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 transition-all duration-300 hover:shadow-lg hover:ring-purple-300" style={{ animation: "fade-in-right 0.7s ease-out 0.6s both" }}>
               <p className="text-xs font-semibold tracking-wide text-slate-500">
                 PRACTICE
               </p>
@@ -187,13 +192,13 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70">
+            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 transition-all duration-300 hover:shadow-lg hover:ring-purple-300" style={{ animation: "fade-in-right 0.7s ease-out 0.7s both" }}>
               <p className="text-xs font-semibold tracking-wide text-slate-500">
                 TEAM UPDATE
               </p>
 
               <p className="mt-2 text-sm text-slate-700">
-                The Gryphons had an incredible day at the University of Richmond Women’s
+                The Gryphons had an incredible day at the University of Richmond Women's
                 Basketball Education Day!
               </p>
 
@@ -201,8 +206,8 @@ export default function Page() {
                 href="https://www.youtube.com/watch?v=sdio-fLlRyk"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group mt-4 block overflow-hidden rounded-xl ring-1 ring-slate-200 transition
-                           hover:shadow-md hover:ring-purple-300"
+                className="group mt-4 block overflow-hidden rounded-xl ring-1 ring-slate-200 transition-all duration-300
+                           hover:shadow-lg hover:ring-purple-300"
               >
                 <div className="relative">
                   <Image
@@ -210,12 +215,12 @@ export default function Page() {
                     alt="U of R Women's Basketball Education Day"
                     width={800}
                     height={450}
-                    className="w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.08]"
                   />
 
                   {/* Play overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 transition-opacity group-hover:opacity-100">
-                    <div className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-purple-700 shadow">
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-purple-700 shadow-lg transform transition-transform duration-300 group-hover:scale-110">
                       ▶ Watch on YouTube
                     </div>
                   </div>
@@ -226,7 +231,7 @@ export default function Page() {
         </div>
       </main>
 
-      <footer className="border-t border-slate-200/70 bg-white">
+      <footer className="border-t border-slate-200/70 bg-white" style={{ animation: "fade-in 0.8s ease-out 0.9s both" }}>
         <div className="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-slate-600">
           Go Gryphons! 🏀
         </div>

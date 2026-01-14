@@ -1,5 +1,6 @@
 // app/components/Schedule.tsx
 import { Calendar, MapPin, Trophy, Shirt, ChevronRight } from "lucide-react";
+import { GAMES, getSeasonStats } from "@/app/data/season";
 
 interface Game {
   id: number;
@@ -17,74 +18,7 @@ interface Game {
   result?: { score: string; won: boolean };
 }
 
-const games: Game[] = [
-  {
-    id: 1,
-    date: "Sat 12/13",
-    time: "6:00 PM",
-    opponent: "St Bridget's",
-    location: "Home",
-    venue: "Benedictine",
-    isHome: true,
-    jersey: "Purple",
-    result: { score: "22-15", won: true },
-  },
-  {
-    id: 2,
-    date: "Tue 12/16",
-    time: "5:00 PM",
-    opponent: "Our Lady of Lourdes",
-    location: "Away",
-    venue: "Our Lady of Lourdes",
-    isHome: false,
-    jersey: "White",
-    result: { score: "12-11", won: false },
-  },
-  {
-    id: 3,
-    date: "Sat 1/10",
-    time: "2:30 PM",
-    opponent: "St Benedict's",
-    location: "Away",
-    venue: "Our Lady of Lourdes",
-    isHome: false,
-    jersey: "Purple",
-    result: { score: "13-11", won: true },
-  },
-  {
-    id: 4,
-    date: "Sat 1/17",
-    time: "3:00 PM",
-    opponent: "St Bridget's",
-    location: "Away",
-    venue: "Veritas",
-    isHome: false,
-    jersey: "Purple",
-    directionsUrl: "https://maps.google.com/?q=Veritas+School+Richmond+VA",
-  },
-  {
-    id: 5,
-    date: "Sat 1/24",
-    time: "8:30 AM",
-    opponent: "St Mary's",
-    location: "Away",
-    venue: "St Benedictine Main Floor",
-    isHome: false,
-    jersey: "Purple",
-    directionsUrl: "https://maps.google.com/?q=St+Benedictine+College+Prep+Richmond+VA",
-  },
-  {
-    id: 6,
-    date: "Sat 1/31",
-    time: "2:00 PM",
-    opponent: "Veritas",
-    location: "Away",
-    venue: "Veritas",
-    isHome: false,
-    jersey: "Purple",
-    directionsUrl: "https://maps.google.com/?q=Veritas+School+Richmond+VA",
-  },
-];
+const games = GAMES;
 
 function jerseyDotClass(jersey?: Game["jersey"]) {
   switch (jersey) {
@@ -210,25 +144,25 @@ export default function Schedule() {
       </div>
 
       {/* Team Record box (top) */}
-      <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70">
+      <div className="rounded-2xl bg-gradient-to-br from-purple-50 via-white to-indigo-50 p-5 shadow-sm ring-1 ring-slate-200/70 transition-all duration-300 hover:shadow-lg" style={{ animation: "fade-in-up 0.7s ease-out 0.1s both" }}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Trophy className="size-6 text-purple-600" />
             <div>
-              <p className="text-xs font-semibold tracking-wide text-slate-500">
-                TEAM RECORD
+              <p className="text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                Team Record
               </p>
-              <p className="text-2xl font-semibold text-slate-900">
+              <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
                 {wins}-{losses}
               </p>
             </div>
           </div>
 
           <div className="text-right">
-            <p className="text-xs font-semibold tracking-wide text-slate-500">
-              GAMES PLAYED
+            <p className="text-xs font-semibold tracking-widest text-slate-500 uppercase">
+              Games Played
             </p>
-            <p className="text-sm font-semibold text-slate-900">
+            <p className="text-2xl font-bold text-purple-700">
               {completed.length}
             </p>
           </div>
@@ -237,8 +171,8 @@ export default function Schedule() {
 
       {/* COMPLETED FIRST */}
       <div className="space-y-3">
-        <h3 className="text-sm font-semibold text-slate-500 tracking-wide">
-          COMPLETED
+        <h3 className="text-sm font-bold tracking-widest text-slate-600 uppercase border-b-2 border-slate-200 pb-2">
+          Completed Games
         </h3>
 
         {completed.length === 0 ? (
@@ -247,7 +181,7 @@ export default function Schedule() {
           </div>
         ) : (
           <div className="grid gap-3">
-            {completed.map((game) => (
+            {completed.map((game, idx) => (
               <a
                 key={game.id}
                 href={directionsHref(game)}
@@ -257,10 +191,11 @@ export default function Schedule() {
                   group block
                   rounded-2xl bg-white p-4
                   shadow-sm ring-1 ring-slate-200/70
-                  transition-all duration-200
-                  hover:-translate-y-1 hover:shadow-lg hover:ring-purple-300
+                  transition-all duration-300
+                  hover:-translate-y-2 hover:shadow-lg hover:ring-purple-300
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500
                 "
+                style={{ animation: `fade-in-up 0.6s ease-out ${0.1 * idx}s both` }}
               >
                 <div className="flex items-start gap-4">
                   <DateBadge
@@ -270,10 +205,10 @@ export default function Schedule() {
 
                   <div className="min-w-0 flex-1">
                   <div className="mt-2 flex flex-wrap items-baseline gap-2">
-  <h4 className="text-lg font-semibold text-slate-900 transition-colors group-hover:text-purple-700">
+  <h4 className="text-lg font-semibold text-slate-900 transition-colors duration-300 group-hover:text-purple-700">
     vs {game.opponent}
   </h4>
-  <span className="text-lg font-semibold text-slate-500">
+  <span className="text-lg font-semibold text-slate-500 transition-colors duration-300 group-hover:text-slate-700">
     {game.time}
   </span>
 </div>
@@ -302,8 +237,8 @@ export default function Schedule() {
 
       {/* UPCOMING SECOND */}
       <div className="space-y-3 pt-2">
-        <h3 className="text-sm font-semibold text-slate-500 tracking-wide">
-          UPCOMING
+        <h3 className="text-sm font-bold tracking-widest text-white uppercase bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg px-4 py-2">
+          Upcoming Games
         </h3>
 
         {upcoming.length === 0 ? (
@@ -312,7 +247,7 @@ export default function Schedule() {
           </div>
         ) : (
           <div className="grid gap-3">
-            {upcoming.map((game) => (
+            {upcoming.map((game, idx) => (
               <a
                 key={game.id}
                 href={directionsHref(game)}
@@ -322,21 +257,22 @@ export default function Schedule() {
                   group block
                   rounded-2xl bg-gradient-to-br from-purple-400 via-purple-900 to-indigo-800 p-4
                   shadow-sm ring-1 ring-purple-300/50
-                  transition-all duration-200
-                  hover:-translate-y-1 hover:shadow-lg hover:ring-purple-400
+                  transition-all duration-300
+                  hover:-translate-y-2 hover:shadow-lg hover:ring-purple-400
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500
                   text-white
                 "
+                style={{ animation: `fade-in-up 0.6s ease-out ${0.1 * idx}s both` }}
               >
                 <div className="flex items-start gap-4">
                   <DateBadge date={game.date} variant="upcoming" />
 
                   <div className="min-w-0 flex-1">
                   <div className="mt-2 flex flex-wrap items-baseline gap-2">
-  <h4 className="text-lg font-semibold text-white transition-colors group-hover:text-purple-100">
+  <h4 className="text-lg font-semibold text-white transition-colors duration-300 group-hover:text-purple-100">
     vs {game.opponent}
   </h4>
-  <span className="text-lg font-semibold text-white/80">
+  <span className="text-lg font-semibold text-white/80 transition-colors duration-300 group-hover:text-white">
     {game.time}
   </span>
 </div>

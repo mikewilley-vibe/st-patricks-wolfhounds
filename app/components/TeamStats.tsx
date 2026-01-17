@@ -3,17 +3,16 @@ import { getSeasonStats } from "@/app/data/season";
 
 export default function TeamStats() {
   const { wins, losses, gamesPlayed, gamesRemaining, winPercentage } = getSeasonStats();
-
   const stats = [
     { label: "Season Record", value: `${wins}–${losses}`, color: "bg-green-50 text-green-700" },
-    { label: "Games Played", value: gamesPlayed.toString(), color: "bg-purple-50 text-purple-700" },
-    { label: "Games Remaining", value: gamesRemaining.toString(), color: "bg-indigo-50 text-indigo-700" },
+    { label: "Games Played", value: gamesPlayed.toString(), color: "bg-green-50 text-green-700" },
+    { label: "Games Remaining", value: gamesRemaining.toString(), color: "bg-green-50 text-green-700" },
     { label: "Win Percentage", value: `${winPercentage}%`, color: "bg-blue-50 text-blue-700" },
   ];
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Trophy className="size-8 text-purple-600" />
+        <Trophy className="size-8 text-green-600" />
         <h2 className="text-2xl font-semibold">Team Statistics</h2>
       </div>
 

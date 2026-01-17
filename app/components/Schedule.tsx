@@ -12,7 +12,7 @@ interface Game {
   isHome: boolean;
 
   // ✅ new
-  jersey?: "Purple" | "White" | "Black" | "Gold" | "Navy" | "Gray";
+  jersey?: "Green" | "White" | "Black" | "Gold" | "Navy" | "Gray";
   directionsUrl?: string;
 
   result?: { score: string; won: boolean };
@@ -22,8 +22,8 @@ const games = GAMES;
 
 function jerseyDotClass(jersey?: Game["jersey"]) {
   switch (jersey) {
-    case "Purple":
-      return "bg-purple-600";
+    case "Green":
+      return "bg-green-600";
     case "White":
       return "bg-slate-100 ring-1 ring-slate-300";
     case "Black":
@@ -31,7 +31,7 @@ function jerseyDotClass(jersey?: Game["jersey"]) {
     case "Gold":
       return "bg-amber-400";
     case "Navy":
-      return "bg-indigo-900";
+      return "bg-green-900";
     case "Gray":
       return "bg-slate-400";
     default:
@@ -62,7 +62,7 @@ function DateBadge({
       ? "bg-green-600"
       : variant === "loss"
       ? "bg-red-600"
-      : "bg-purple-600";
+      : "bg-green-600";
 
   return (
     <div
@@ -95,7 +95,7 @@ function GameMetaRow({
         className={[
           "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1",
           game.isHome
-            ? "bg-purple-50 text-purple-700 ring-purple-200"
+            ? "bg-green-50 text-green-700 ring-green-200"
             : "bg-slate-50 text-slate-700 ring-slate-200",
         ].join(" ")}
       >
@@ -129,30 +129,30 @@ function GameMetaRow({
 }
 
 export default function Schedule() {
-  const completed = games.filter((g) => !!g.result);
-  const upcoming = games.filter((g) => !g.result);
+  const completed = games.filter((g: Game) => !!g.result);
+  const upcoming = games.filter((g: Game) => !g.result);
 
-  const wins = completed.filter((g) => g.result?.won).length;
-  const losses = completed.filter((g) => g.result && !g.result.won).length;
+  const wins = completed.filter((g: Game) => g.result?.won).length;
+  const losses = completed.filter((g: Game) => g.result && !g.result.won).length;
 
   return (
     <div className="space-y-6">
       {/* Header row like Roster */}
       <div className="flex items-center gap-3">
-        <Calendar className="size-8 text-purple-600" />
+        <Calendar className="size-8 text-green-600" />
         <h2 className="text-2xl font-semibold">Game Schedule</h2>
       </div>
 
       {/* Team Record box (top) */}
-      <div className="rounded-2xl bg-gradient-to-br from-purple-50 via-white to-indigo-50 p-5 shadow-sm ring-1 ring-slate-200/70 transition-all duration-300 hover:shadow-lg" style={{ animation: "fade-in-up 0.7s ease-out 0.1s both" }}>
+      <div className="rounded-2xl bg-gradient-to-br from-green-50 via-white to-green-50 p-5 shadow-sm ring-1 ring-slate-200/70 transition-all duration-300 hover:shadow-lg" style={{ animation: "fade-in-up 0.7s ease-out 0.1s both" }}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Trophy className="size-6 text-purple-600" />
+            <Trophy className="size-6 text-green-600" />
             <div>
               <p className="text-xs font-semibold tracking-widest text-slate-500 uppercase">
                 Team Record
               </p>
-              <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-green-600 bg-clip-text text-transparent">
                 {wins}-{losses}
               </p>
             </div>
@@ -162,7 +162,7 @@ export default function Schedule() {
             <p className="text-xs font-semibold tracking-widest text-slate-500 uppercase">
               Games Played
             </p>
-            <p className="text-2xl font-bold text-purple-700">
+            <p className="text-2xl font-bold text-green-700">
               {completed.length}
             </p>
           </div>
@@ -181,7 +181,7 @@ export default function Schedule() {
           </div>
         ) : (
           <div className="grid gap-3">
-            {completed.map((game, idx) => (
+            {completed.map((game: Game, idx: number) => (
               <a
                 key={game.id}
                 href={directionsHref(game)}
@@ -192,8 +192,8 @@ export default function Schedule() {
                   rounded-2xl bg-white p-4
                   shadow-sm ring-1 ring-slate-200/70
                   transition-all duration-300
-                  hover:-translate-y-2 hover:shadow-lg hover:ring-purple-300
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500
+                  hover:-translate-y-2 hover:shadow-lg hover:ring-green-300
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500
                 "
                 style={{ animation: `fade-in-up 0.6s ease-out ${0.1 * idx}s both` }}
               >
@@ -204,14 +204,14 @@ export default function Schedule() {
                   />
 
                   <div className="min-w-0 flex-1">
-                  <div className="mt-2 flex flex-wrap items-baseline gap-2">
-  <h4 className="text-lg font-semibold text-slate-900 transition-colors duration-300 group-hover:text-purple-700">
-    vs {game.opponent}
-  </h4>
-  <span className="text-lg font-semibold text-slate-500 transition-colors duration-300 group-hover:text-slate-700">
-    {game.time}
-  </span>
-</div>
+                    <div className="mt-2 flex flex-wrap items-baseline gap-2">
+                      <h4 className="text-lg font-semibold text-slate-900 transition-colors duration-300 group-hover:text-green-700">
+                        vs {game.opponent}
+                      </h4>
+                      <span className="text-lg font-semibold text-slate-500 transition-colors duration-300 group-hover:text-slate-700">
+                        {game.time}
+                      </span>
+                    </div>
 
                     <div className="mt-1 flex items-center gap-2 text-sm text-slate-600">
                       <MapPin className="size-4 text-slate-400" />
@@ -223,7 +223,7 @@ export default function Schedule() {
                   </div>
 
                   {/* subtle affordance */}
-                  <ChevronRight className="mt-1 size-5 text-slate-300 transition group-hover:text-purple-400" />
+                  <ChevronRight className="mt-1 size-5 text-slate-300 transition group-hover:text-green-400" />
                 </div>
 
                 <p className="mt-3 text-xs text-slate-400">
@@ -237,7 +237,7 @@ export default function Schedule() {
 
       {/* UPCOMING SECOND */}
       <div className="space-y-3 pt-2">
-        <h3 className="text-sm font-bold tracking-widest text-white uppercase bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg px-4 py-2">
+        <h3 className="text-sm font-bold tracking-widest text-white uppercase bg-gradient-to-r from-green-600 to-green-600 rounded-lg px-4 py-2">
           Upcoming Games
         </h3>
 
@@ -247,7 +247,7 @@ export default function Schedule() {
           </div>
         ) : (
           <div className="grid gap-3">
-            {upcoming.map((game, idx) => (
+            {upcoming.map((game: Game, idx: number) => (
               <a
                 key={game.id}
                 href={directionsHref(game)}
@@ -255,11 +255,11 @@ export default function Schedule() {
                 rel="noreferrer"
                 className="
                   group block
-                  rounded-2xl bg-gradient-to-br from-purple-400 via-purple-900 to-indigo-800 p-4
-                  shadow-sm ring-1 ring-purple-300/50
+                  rounded-2xl bg-gradient-to-br from-green-400 via-green-900 to-green-800 p-4
+                  shadow-sm ring-1 ring-green-300/50
                   transition-all duration-300
-                  hover:-translate-y-2 hover:shadow-lg hover:ring-purple-400
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500
+                  hover:-translate-y-2 hover:shadow-lg hover:ring-green-400
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500
                   text-white
                 "
                 style={{ animation: `fade-in-up 0.6s ease-out ${0.1 * idx}s both` }}
@@ -268,14 +268,14 @@ export default function Schedule() {
                   <DateBadge date={game.date} variant="upcoming" />
 
                   <div className="min-w-0 flex-1">
-                  <div className="mt-2 flex flex-wrap items-baseline gap-2">
-  <h4 className="text-lg font-semibold text-white transition-colors duration-300 group-hover:text-purple-100">
-    vs {game.opponent}
-  </h4>
-  <span className="text-lg font-semibold text-white/80 transition-colors duration-300 group-hover:text-white">
-    {game.time}
-  </span>
-</div>
+                    <div className="mt-2 flex flex-wrap items-baseline gap-2">
+                      <h4 className="text-lg font-semibold text-white transition-colors duration-300 group-hover:text-green-100">
+                        vs {game.opponent}
+                      </h4>
+                      <span className="text-lg font-semibold text-white/80 transition-colors duration-300 group-hover:text-white">
+                        {game.time}
+                      </span>
+                    </div>
 
                     <div className="mt-1 flex items-center gap-2 text-sm text-white/70">
                       <MapPin className="size-4 text-white/50" />
@@ -286,7 +286,7 @@ export default function Schedule() {
                     <GameMetaRow game={game} showResult={false} />
                   </div>
 
-                  <ChevronRight className="mt-1 size-5 text-white/50 transition group-hover:text-white/70" />
+                  <ChevronRight className="mt-1 size-5 text-white/50 transition group-hover:text-green-200/70" />
                 </div>
 
                 <p className="mt-3 text-xs text-white/60">

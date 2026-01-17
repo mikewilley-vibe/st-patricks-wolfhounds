@@ -1,239 +1,170 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import Image from "next/image";
-
+import { useState } from "react";
 import TeamRoster from "@/app/components/TeamRoster";
 import Schedule from "@/app/components/Schedule";
 import TeamStats from "@/app/components/TeamStats";
+import Standings from "@/app/components/Standings";
 import GameLocations from "@/app/components/GameLocations";
+import Image from "next/image";
 
-type Tab = "roster" | "schedule" | "stats" | "locations";
-
-const TABS: { key: Tab; label: string }[] = [
-  { key: "roster", label: "Roster" },
-  { key: "schedule", label: "Schedule" },
-  { key: "stats", label: "Stats" },
-  { key: "locations", label: "Game locations" },
-];
-
-function Chip({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      className="
-        inline-flex items-center
-        rounded-full border border-white/30 bg-white/15
-        px-4 py-2 text-xs text-white/95 backdrop-blur
-        transition-all duration-300
-        hover:-translate-y-1 hover:bg-white/25 hover:shadow-lg
-        hover:ring-1 hover:ring-white/50 hover:border-white/50
-        cursor-default font-medium tracking-wide
-      "
-    >
-      {children}
-    </div>
-  );
-}
+type Tab = "roster" | "schedule" | "stats" | "standings" | "locations";
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<Tab>("roster");
 
-  const content = useMemo(() => {
-    if (activeTab === "roster") return <TeamRoster />;
-    if (activeTab === "schedule") return <Schedule />;
-    if (activeTab === "locations") return <GameLocations />;
-    return <TeamStats />;
-  }, [activeTab]);
-
   return (
-    <div className="min-h-screen bg-[rgb(var(--ohms-paper,245_246_248))] text-slate-900">
-      {/* HERO */}
-      <header className="relative isolate overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 -z-10">
-          {/* Hero image */}
-          <Image
-            src="/images/ohbball.png"
-            alt="OHMS Girls Basketball"
-            fill
-            priority
-            className="object-cover object-center"
-          />
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50">
+      <style>{`
+        @keyframes fadeInDown {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+        .animate-fadeInDown {
+          animation: fadeInDown 0.6s ease-out;
+        }
+        .animate-fadeInUp {
+          animation: fadeInUp 0.6s ease-out;
+        }
+        .animate-slideInLeft {
+          animation: slideInLeft 0.6s ease-out;
+        }
+        .animate-slideInRight {
+          animation: slideInRight 0.6s ease-out;
+        }
+        .animate-pulse-slow {
+          animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+      `}</style>
 
-          {/* Darken + purple brand overlay so white text stays readable */}
-          <div className="absolute inset-0 bg-black/45" />
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-950/80 via-purple-900/55 to-indigo-950/75" />
-
-          {/* Glow accents (keep your polish) */}
-          <div className="absolute -top-24 left-1/2 h-72 w-[60rem] -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
-          <div className="absolute -bottom-32 right-[-10rem] h-80 w-80 rounded-full bg-purple-500/10 blur-3xl" />
-        </div>
-
-        <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            {/* Left */}
-            <div className="max-w-2xl" style={{ animation: "fade-in-down 0.7s ease-out" }}>
-              <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/85 ring-1 ring-white/15">
-                Orchard House Middle School • Girls Basketball • Grades 5–8
-              </p>
-
-              <h1 className="text-balance text-4xl font-semibold tracking-tight text-white md:text-6xl">
-                Extraordinary on the court
-                <span className="block text-white/85">Gryphons all season</span>
-              </h1>
-
-              <p className="mt-4 max-w-xl text-pretty text-sm leading-relaxed text-white/80 md:text-base">
-                {/* (optional) add a line here if you want */}
-              </p>
-
-              <div className="mt-5 flex flex-wrap gap-2" style={{ animation: "fade-in-up 0.8s ease-out 0.2s both" }}>
-                <Chip>Head Coach: Marti Kandl</Chip>
-                <Chip>Assistant: Eddie Bagnell</Chip>
-                <Chip>Athletics Director: Rebecca Reyes</Chip>
-              </div>
+      {/* Header */}
+      <header className="bg-gradient-to-r from-green-600 via-green-700 to-green-800 text-white shadow-2xl">
+        <div className="mx-auto max-w-6xl px-4 py-8">
+          <div className="flex items-center gap-8 animate-fadeInDown">
+            <div className="flex-shrink-0 animate-slideInLeft">
+              <Image
+                src="/images/wolfhounds.png"
+                alt="Wolfhounds Logo"
+                width={90}
+                height={90}
+                className="rounded-xl bg-white p-2 shadow-lg hover:scale-110 transition-transform duration-300"
+              />
             </div>
 
-            {/* Right logo card */}
-            <div className="w-full md:w-[22rem]" style={{ animation: "fade-in-up 0.7s ease-out 0.3s both" }}>
-              <div className="rounded-2xl bg-white/10 p-5 ring-1 ring-white/15 backdrop-blur transition-all duration-300 hover:bg-white/15 hover:shadow-lg">
-                <div className="flex items-center gap-4">
-                  <div className="rounded-xl bg-white p-2">
-                    <Image
-                      src="/images/gryphons.png"
-                      alt="Gryphons Logo"
-                      width={72}
-                      height={72}
-                      className="h-auto w-auto"
-                      priority
-                    />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-white">OHMS Gryphons</p>
-                    <p className="text-xs text-white/75">Girls Basketball</p>
-                  </div>
-                </div>
-
-                {/* quick link that switches tab */}
-                <div className="mt-4 rounded-xl bg-black/10 p-3 text-white/85 transition-all duration-200 hover:bg-black/20">
-                  <div className="mt-2 flex gap-2">
-                    <button
-                      onClick={() => {
-                        setActiveTab("schedule");
-                        document.getElementById("content")?.scrollIntoView({ behavior: "smooth" });
-                      }}
-                      className="rounded-lg bg-white/10 px-3 py-2 text-xs transition-all duration-200 hover:bg-white/20 hover:shadow-md"
-                    >
-                      Schedule
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <div className="flex-1 animate-slideInRight">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-green-100 bg-clip-text text-transparent">
+                St. Patrick Catholic School
+              </h1>
+              <p className="text-green-100 text-lg mt-2 font-semibold tracking-wide">
+                Girls Basketball Team • Wolfhounds 🏀
+              </p>
             </div>
           </div>
+        </div>
 
-          {/* Tabs bar */}
-          <div className="mt-8 rounded-2xl bg-white/10 p-2 ring-1 ring-white/15 backdrop-blur transition-all duration-300 hover:bg-white/15" style={{ animation: "fade-in-up 0.8s ease-out 0.4s both" }}>
-            <div className="flex flex-wrap gap-2">
-              {TABS.map((t, idx) => {
-                const on = activeTab === t.key;
-                return (
-                  <button
-                    key={t.key}
-                    onClick={() => setActiveTab(t.key)}
-                    className={[
-                      "rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200",
-                      on 
-                        ? "bg-white text-slate-900 shadow-lg scale-105" 
-                        : "text-white/85 hover:bg-white/10 hover:shadow-md",
-                    ].join(" ")}
-                    style={{ animation: `fade-in 0.5s ease-out ${0.1 * idx}s both` }}
-                  >
-                    {t.label}
-                  </button>
-                );
-              })}
+        {/* Tabs */}
+        <div className="border-t border-green-500/40 backdrop-blur-sm">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="flex gap-2 overflow-x-auto py-0">
+              {(["roster", "schedule", "stats", "standings", "locations"] as Tab[]).map((tab, idx) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`relative px-6 py-4 font-medium text-sm transition-all duration-300 whitespace-nowrap ${
+                    activeTab === tab
+                      ? "text-white"
+                      : "text-green-200 hover:text-white hover:bg-green-500/20"
+                  }`}
+                  style={{
+                    animation: `fadeInDown 0.6s ease-out ${0.1 * idx}s both`,
+                  }}
+                >
+                  {tab === "roster"
+                    ? "Roster"
+                    : tab === "schedule"
+                    ? "Schedule"
+                    : tab === "stats"
+                    ? "Stats"
+                    : tab === "standings"
+                    ? "Standings"
+                    : "Locations"}
+                  {activeTab === tab && (
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent rounded-full" />
+                  )}
+                </button>
+              ))}
             </div>
           </div>
         </div>
       </header>
 
-      {/* CONTENT */}
-      <main id="content" className="mx-auto max-w-6xl px-4 py-10">
-        <div className="grid gap-6 md:grid-cols-[1fr_18rem]">
-         <section
-  className="
-    relative overflow-hidden rounded-2xl
-    bg-white p-6 shadow-sm ring-1 ring-slate-200/70
-    transition-all duration-500
-  "
-  style={{ animation: "fade-in-up 0.8s ease-out 0.5s both" }}
->
-  {/* subtle purple wash like the hero */}
-  <div className="pointer-events-none absolute inset-0 -z-10">
-    <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-indigo-50" />
-    <div className="absolute -top-24 left-1/2 h-72 w-[60rem] -translate-x-1/2 rounded-full bg-purple-200/30 blur-3xl" />
-    <div className="absolute -bottom-24 right-[-8rem] h-72 w-72 rounded-full bg-indigo-200/25 blur-3xl" />
-  </div>
-
-  {content}
-</section>
-
-          {/* Side rail */}
-          <aside className="space-y-4">
-            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 transition-all duration-300 hover:shadow-lg hover:ring-purple-300" style={{ animation: "fade-in-right 0.7s ease-out 0.6s both" }}>
-              <p className="text-xs font-semibold tracking-wide text-slate-500">
-                PRACTICE
-              </p>
-              <p className="mt-2 text-sm text-slate-700">
-                Practice Schedule: Mondays and Thursdays 4:00–5:30
-              </p>
-              <div className="mt-3 rounded-xl bg-[rgb(var(--ohms-paper,245_246_248))] p-3 text-xs text-slate-600">
-                The Faison Center • 5311 Markel Road
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 transition-all duration-300 hover:shadow-lg hover:ring-purple-300" style={{ animation: "fade-in-right 0.7s ease-out 0.7s both" }}>
-              <p className="text-xs font-semibold tracking-wide text-slate-500">
-                TEAM UPDATE
-              </p>
-
-              <p className="mt-2 text-sm text-slate-700">
-                The Gryphons had an incredible day at the University of Richmond Women's
-                Basketball Education Day!
-              </p>
-
-              <a
-                href="https://www.youtube.com/watch?v=sdio-fLlRyk"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mt-4 block overflow-hidden rounded-xl ring-1 ring-slate-200 transition-all duration-300
-                           hover:shadow-lg hover:ring-purple-300"
-              >
-                <div className="relative">
-                  <Image
-                    src="/images/education-day.png"
-                    alt="U of R Women's Basketball Education Day"
-                    width={800}
-                    height={450}
-                    className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.08]"
-                  />
-
-                  {/* Play overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-purple-700 shadow-lg transform transition-transform duration-300 group-hover:scale-110">
-                      ▶ Watch on YouTube
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </aside>
+      {/* Main Content */}
+      <main className="mx-auto max-w-6xl px-4 py-12">
+        {/* Content Area with Fade */}
+        <div
+          className="animate-fadeInUp"
+          key={activeTab}
+        >
+          {activeTab === "roster" && <TeamRoster />}
+          {activeTab === "schedule" && <Schedule />}
+          {activeTab === "stats" && <TeamStats />}
+          {activeTab === "standings" && <Standings />}
+          {activeTab === "locations" && <GameLocations />}
         </div>
       </main>
 
-      <footer className="border-t border-slate-200/70 bg-white" style={{ animation: "fade-in 0.8s ease-out 0.9s both" }}>
-        <div className="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-slate-600">
-          Go Gryphons! 🏀
+      {/* Footer */}
+      <footer className="mt-20 py-10 text-center bg-gradient-to-r from-green-50 to-green-50 border-t border-green-200">
+        <div className="animate-fadeInUp" style={{ animationDelay: "0.3s" }}>
+          <p className="text-lg font-bold text-green-700 mb-2">Go Wolfhounds! 🏀</p>
+          <p className="text-sm text-green-600">St. Patrick Catholic School • Girls Basketball</p>
+          <div className="mt-4 flex justify-center gap-4">
+            <div className="h-1 w-20 bg-gradient-to-r from-green-400 to-green-600 rounded-full" />
+          </div>
         </div>
       </footer>
     </div>
